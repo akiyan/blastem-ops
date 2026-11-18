@@ -7,7 +7,7 @@
 | 旧基準 | `4b71bfec3b5919367c5843f23c22c76ac24aa38c` |
 | 新基準 | `5702187402276e7f0aea2ad4e6784ffb187c8c10`（+45コミット） |
 | 旧独自コミット | `a6d033a06fbb2ada3c3001496b5a197cf9b69e7b`（タグ `akiyan-2026-11-18-4b71bfe`） |
-| 新独自コミット | `ec7dca7`（cherry-pick） |
+| 新独自コミット | `ec7dca749927d6c39254930bb404dc4bf233acb1`（cherry-pick） |
 
 ## 上流の主な変更
 
@@ -24,3 +24,4 @@
 
 - clean build から `tools/akiyan-check.sh` がすべて成功した（本体ビルド、Go の gofmt・vet・race 試験、fixture、本体の Python 試験17件、MCP 統合試験）
 - 利用側の MD ROM で、MCP によるフレーム送り・入力・停止中撮影を実行した。フレーム送りの結果と4画面は追従前と一致した。1画面だけ画面下端のデバッグ表示が異なったが、追従後の同じバイナリで2回実行しても同じ箇所が変わるため、実行ごとの変動で追従の影響ではない
+- GitHub Actions の `akiyan-check` も成功した（[run 44264195131](https://github.com/akiyan/blastem/actions/runs/44264195131)）。利用側（kamaitachi-ops）の `check-emulator` も新しい commit で成功した
