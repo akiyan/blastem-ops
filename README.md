@@ -24,7 +24,7 @@ MCP ホストには `mcp/blastem-mcp` を stdio サーバーとして登録す�
 - [akiyan fork の変更情報](blastem_akiyan_fork.md)
 - [導入と MCP ホストの設定](docs/setup.md)
 - [制御プロトコル v2](docs/control-protocol-v2.md)
-- 機能: [SRAM](docs/features/sram.md)、[停止中の画面取得](docs/features/paused-screenshot.md)、[フレーム制御](docs/features/frame-control.md)、[音声録音](docs/features/audio-capture.md)、[速度と RAM](docs/features/speed-and-ram.md)、[ヘッドレス録画](docs/features/offline-recording.md)、[フレームごとの値の記録](docs/features/frame-trace.md)
+- 機能: [SRAM](docs/features/sram.md)、[停止中の画面取得](docs/features/paused-screenshot.md)、[フレーム制御](docs/features/frame-control.md)、[音声録音](docs/features/audio-capture.md)、[速度と RAM](docs/features/speed-and-ram.md)、[ヘッドレス録画](docs/features/offline-recording.md)、[フレームごとの値の記録](docs/features/frame-trace.md)、[VDP 表示内容のテキスト化](docs/features/vdp-layout.md)
 - [試験用 fixture ROM](docs/fixture.md)
 - [上流への追従](docs/upstream-sync.md)
 - [統合時の検証記録](releases/2026-11-18.md)、[上流追従の記録](releases/2026-11-18-upstream-sync.md)

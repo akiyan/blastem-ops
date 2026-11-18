@@ -122,11 +122,19 @@
 - capability: `frame_trace`
 - 詳細: [フレームごとの値の記録](docs/features/frame-trace.md)
 
+### 9. 停止中の VDP ダンプ
+
+`ctrl_v2.c`
+
+- `vdp_dump` は停止中（フレーム制御または GDB による停止）に、その時点の VRAM・CRAM・VSRAM・レジスタを KITVDMP1 形式で書く。既存ファイルには書かない
+- capability: `paused_vdp_dump`
+- 詳細: [VDP の表示内容のテキスト化](docs/features/vdp-layout.md)
+
 ## 独自変更（MCP サーバー）
 
 `mcp/`（Go、MCP stdio）
 
-### 9. セッション・入力・観測・68000 デバッグ
+### 10. セッション・入力・観測・68000 デバッグ
 
 - 管理対象の BlastEM を1つ起動・確認・停止する: `blastem_start`、`blastem_status`、`blastem_stop`
 - パッド入力: `button_down`、`button_up`、`release_all_buttons`
@@ -139,7 +147,7 @@
   - `breakpoint_set`、`breakpoint_remove`、`cpu_step`、`cpu_continue`
 - 配布可能な自作 MD fixture ROM（ソースからビルド）: `mcp/testdata/fixture/`（[内容](docs/fixture.md)）
 
-### 10. 本体 v2 機能の公開
+### 11. 本体 v2 機能の公開
 
 - `blastem_start.save_dir`
   - 起動前に capability を確認し、保存 profile を OS のファイルロックで排他する。symlink 経由の二重起動も拒否する
@@ -153,6 +161,7 @@
   - 停止・録音開始・指定フレームの進行・録音終了をまとめて行い、WAV を MCP の audio content で返す
 - `speed_set`、`ram_read`
 - `frame_trace`: 値に名前を付けて記録し、前の記録から変わった名前（`changed`）を付けて返す。応答に含める記録数を制限でき、全記録はファイルに残る
+- `vdp_layout`: 停止中の表示内容をテキストで返す。表示モード、スクロール、Plane A/B・ウィンドウの名前表を画面の行ごとの文字列にしたもの、スプライトのリンク一覧（表示判定、1ラインの上限超え、リンク異常）。パターンデータの CRC32 も付けられる
 - 使い方: [導入と MCP ホストの設定](docs/setup.md)
 
 ## 回帰試験と CI
@@ -162,7 +171,7 @@
 - `tools/akiyan-check.sh` で、本体のビルド、Go の gofmt・vet・race 試験、fixture の生成・検査、本体の Python 試験、MCP の統合試験を順に実行する
 - 本体の Python 試験
   - `test_paths.py`: 保存先の環境変数
-  - `test_control_v2.py`: v2 プロトコル・保存・停止中撮影・フレーム制御・録音・速度・RAM・フレームごとの記録
+  - `test_control_v2.py`: v2 プロトコル・保存・停止中撮影・フレーム制御・録音・速度・RAM・フレームごとの記録・VDP ダンプ
   - `test_wave_writer.py`: WAV writer
   - `test_offline_recording.py`: ヘッドレス録画と MP4 結合
 - MCP の統合試験は Xvfb 上の fixture で、入力・画像・VDP・GDB・保存・フレーム操作・録音・RAM を確認する
