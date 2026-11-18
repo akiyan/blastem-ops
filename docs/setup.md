@@ -3,7 +3,7 @@
 対象は Linux x86_64。必要なものは次のとおり。
 
 - Go 1.27 以上
-- X11 ディスプレイ。画面がない環境では Xvfb を使う
+- X11 ディスプレイ。ない環境では `blastem_start` の `headless: true` を使う（Xvfb も不要）
 - 本体の [akiyan ブランチ](https://github.com/akiyan/blastem/tree/akiyan)
 
 ## 依存パッケージ（Ubuntu/Debian）
@@ -24,7 +24,7 @@ make -j4 DEBUG=1          # エミュレーター本体: ./blastem
 make -C mcp build fixture # MCP サーバー: mcp/blastem-mcp、試験用 ROM: mcp/testdata/fixture/build/
 ```
 
-回帰試験は `tools/akiyan-check.sh [出力ディレクトリ]` でまとめて実行する。ビルドと次の試験を順に行う。
+回帰試験は `tools/akiyan-check.sh [出力ディレクトリ]` でまとめて実行する。ビルドと次の試験を順に行う。MCP 統合試験と本体の制御試験は、Xvfb 上と、画面サーバーなし（`make -C mcp integration-headless`）の両方で実行する。
 
 - Go の gofmt・vet・race 試験
 - fixture ROM の生成と検査
@@ -56,11 +56,14 @@ MCP ホストから stdio サーバーとして起動する。stdout は MCP の
   "rom_path": "/absolute/path/to/local-or-fixture.bin",
   "debug": false,
   "save_dir": "/absolute/path/to/save-profile",
-  "symbols_path": "/absolute/path/to/symbol.txt"
+  "symbols_path": "/absolute/path/to/symbol.txt",
+  "headless": true
 }
 ```
 
 `debug: true` は CPU レジスター、メモリ、ブレークポイント、ステップ実行を使う場合だけ指定する。GDB 起動中は、フレーム制御・録音・速度設定を使えない。`save_dir` は省略できる（[SRAM](features/sram.md)）。`symbols_path` を渡すと、各ツールでアドレスの代わりにシンボル名を使える（[シンボル名の指定](features/symbols.md)）。
+
+`headless: true` は、画面サーバーなしでエミュレーターを動かす。SDL の dummy 映像・音声ドライバーを使い、OpenGL のウィンドウを作れないときは本体が SDL のソフトウェア描画へ切り替える。撮影・停止中撮影・VDP 取得・録音・フレーム制御・GDB はそのまま使える。描画はソフトウェアで行い、画面には何も表示しない。
 
 ## ツール一覧
 
@@ -110,7 +113,7 @@ MCP ホストから stdio サーバーとして起動する。stdout は MCP の
 
 ## トラブルシューティング
 
-- **ディスプレイを開けない:** `DISPLAY` を設定するか、`xvfb-run -a` 下で起動する。`BLASTEM_NO_GUI=1` でも X ディスプレイが必要
+- **ディスプレイを開けない:** `headless: true` で起動するか、`DISPLAY` を設定する（`xvfb-run -a` でもよい）
 - **ALSA・音声デバイスのエラー:** 画面のない試験では `SDL_AUDIODRIVER=dummy` を使う（統合試験では自動で設定する）
 - **前回のセッションが残っている:** `blastem_status`、`blastem_stop` の順に呼ぶ
 - **画像取得が時間切れになる:** 本体が描画を続けているか、`blastem.stderr.log`、`TMPDIR` の空き容量を確認する

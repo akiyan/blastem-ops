@@ -125,7 +125,14 @@
 - capability: `frame_trace`
 - 詳細: [フレームごとの値の記録](docs/features/frame-trace.md)
 
-### 9. 停止中の VDP ダンプ
+### 9. 画面サーバーなしでの起動
+
+`render_sdl.c`
+
+- OpenGL のウィンドウを作れない映像ドライバー（`SDL_VIDEODRIVER=dummy` など）では、OpenGL なしでウィンドウを作り直し、SDL のソフトウェア描画へ切り替える。高速な描画ドライバーがないときもソフトウェア描画を使う
+- MCP の `blastem_start.headless` はこれと dummy 音声ドライバー、`BLASTEM_HIDDEN_WINDOW` を使い、Xvfb なしでセッションを動かす
+
+### 10. 停止中の VDP ダンプ
 
 `ctrl_v2.c`
 
@@ -133,7 +140,7 @@
 - capability: `paused_vdp_dump`
 - 詳細: [VDP の表示内容のテキスト化](docs/features/vdp-layout.md)
 
-### 10. 走査線単位の VDP 書き込みと割り込みの記録
+### 11. 走査線単位の VDP 書き込みと割り込みの記録
 
 `vdp_trace.c`、`vdp_trace.h`、`vdp.c`、`genesis.c`、`m68k_core.c`、`m68k_core.h`、`m68k_core_x86.c`、`m68k_internal.h`、`ctrl_v2.c`
 
@@ -142,7 +149,7 @@
 - capability: `line_trace`
 - 詳細: [走査線単位の記録](docs/features/line-trace.md)
 
-### 11. サウンド CPU（Z80）の観測
+### 12. サウンド CPU（Z80）の観測
 
 `z80_to_x86.c`、`z80_to_x86.h`、`ctrl_v2.c`
 
@@ -156,7 +163,7 @@
 
 `mcp/`（Go、MCP stdio）
 
-### 12. セッション・入力・観測・68000 デバッグ
+### 13. セッション・入力・観測・68000 デバッグ
 
 - 管理対象の BlastEM を1つ起動・確認・停止する: `blastem_start`、`blastem_status`、`blastem_stop`
 - パッド入力: `button_down`、`button_up`、`release_all_buttons`
@@ -169,7 +176,7 @@
   - `breakpoint_set`、`breakpoint_remove`、`cpu_step`、`cpu_continue`
 - 配布可能な自作 MD fixture ROM（ソースからビルド）: `mcp/testdata/fixture/`（[内容](docs/fixture.md)）
 
-### 13. 本体 v2 機能の公開
+### 14. 本体 v2 機能の公開
 
 - `blastem_start.save_dir`
   - 起動前に capability を確認し、保存 profile を OS のファイルロックで排他する。symlink 経由の二重起動も拒否する
@@ -187,6 +194,7 @@
 - `line_trace`: 走査線単位の書き込み・割り込みを、割り込みレベル別の回数・ライン範囲・処理サイクル数の集計とともに返す。ライン範囲で絞り込める
 - `z80_state`: Z80 のレジスタ・状態・フレームごとのサイクル数と、任意の Z80 RAM 範囲を返す
 - シンボル名: `blastem_start.symbols_path` で `nm -n` 形式のファイルを読み、`ram_read`・`memory_read`/`memory_write`・ブレークポイント・`frame_trace` でシンボル名（オフセット付き可）を使える。応答に最寄りのシンボル位置を付け、`symbol_lookup` で検索できる（[詳細](docs/features/symbols.md)）
+- `blastem_start.headless`: 画面サーバーなしで起動する（SDL dummy ドライバー、ソフトウェア描画）
 - 使い方: [導入と MCP ホストの設定](docs/setup.md)
 
 ## 回帰試験と CI
@@ -200,6 +208,7 @@
   - `test_wave_writer.py`: WAV writer
   - `test_offline_recording.py`: ヘッドレス録画、MP4 結合、音源別録音と書き込みログ
 - MCP の統合試験は Xvfb 上の fixture で、入力・画像・VDP・GDB・保存・フレーム操作・録音・RAM・値の記録・表示内容・走査線単位の記録・Z80 を確認する
+- MCP 統合試験と本体の制御試験は、Xvfb 上と画面サーバーなしの両方で実行する
 - GitHub Actions は `akiyan` ブランチへの push と PR で同じ試験を実行する。ulalume fork のリリース用 `build.yml` は `v*` タグでだけ動き、変更していない
 
 ## 保証範囲とライセンス
