@@ -109,7 +109,8 @@
 - 既存ファイルは上書きしない
 - 次の場合は明示的に失敗する: interlace、途中の NTSC/PAL 切替、別機種、`-b` との併用
 - 既存 APNG の終了処理で、acTL のフレーム数を書き換えた後に CRC を更新していなかった点を修正した
-- `tools/mux_capture.py` は、完了フラグ・全分割の decode フレーム数・音声の長さを確認し、正確なフレーム時間で MP4 に結合する
+- JSON に、表示モードが同じ区間ごとの実表示領域（`active_areas`）を記録する
+- `tools/mux_capture.py` は、完了フラグ・全分割の decode フレーム数・音声の長さを確認し、正確なフレーム時間で MP4 に結合する。`--crop auto` は実表示領域から切り出し範囲を決める
 - `--record-mute` でチャンネル（FM1〜6、DAC、PSG トーン1〜3、ノイズ）を出力から外す。`--record-no-video` は音声と JSON だけを書く。`--record-sound-log` は YM2612・PSG への書き込みを1始まりのフレーム番号付きで記録する（DAC サンプルはフレームごとの件数）
 - `tools/record_stems.py` は、ステムごとに収録を繰り返して音源別の WAV、フレームごとの AC RMS・ピーク・DC、有音区間、ミックスとの差を出力する
 - 詳細: [ヘッドレス録画](docs/features/offline-recording.md)、[音源別の録音と書き込みログ](docs/features/audio-stems.md)

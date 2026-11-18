@@ -32,7 +32,8 @@ mkdir -p .local/capture-demo
   - NTSC は 320×240、PAL は 320×256
   - H32 の画面は中央に配置し、H40 との切替も同じサイズで収録する。初期設定の overscan 除去値を使う
 - `PREFIX.wav`: 通常の YM2612/PSG ミキサー出力。44,100 Hz、16 bit、stereo
-- `PREFIX.json`: 完了フレーム数、映像寸法、正確なフレームレートの分子・分母、音声サンプル数、映像の分割数と分割フレーム数、正常完了フラグ
+- `PREFIX.json`: 完了フレーム数、映像寸法、正確なフレームレートの分子・分母、音声サンプル数、映像の分割数と分割フレーム数、正常完了フラグ、実表示領域（`active_areas`）
+  - `active_areas` は、表示モード（H32/H40、V28/V30）が同じ区間ごとの `from`・`to`（1始まりのフレーム番号）と、320 幅の画像の中で実際にゲーム画面が描かれる矩形（`x`・`y`・`width`・`height`）
 
 既存ファイルは上書きしない。音声は1,024サンプル単位で同期的に混合するため、終了時に1ブロック未満の差と、VDP のフレーム出力位相の差が残る。音声を水増しせず、実際のサンプル数を記録する。PC の音声デバイスの速度調整やコールバックは使わない。
 
@@ -51,7 +52,7 @@ python3 tools/mux_capture.py .local/capture-demo/run .local/capture-demo/playthr
 - WAV のサンプル数
 - 映像と音声の長さの差（40 ms 以内）
 
-`--crop WIDTH HEIGHT X Y` で 4:3 補正前に表示範囲を切り出せる。値はタイトルごとに実画像で確認する。全タイトルに同じ crop を一律に使わない。APNG demuxer が duration を返さない場合に備え、concat 入力に各分割の duration を明示する。結合後も 30 fps のフレーム数と尺を metadata と照合し、不完全な動画は失敗にする。
+`--crop auto` は `active_areas` をすべて含む矩形で切り出す（H32 だけの録画なら 256×224、H32 と H40 が混ざる録画なら 320 幅）。`--crop WIDTH HEIGHT X Y` で任意の範囲も指定できる。切り出した範囲を 1280×960（4:3）へ拡大する。APNG demuxer が duration を返さない場合に備え、concat 入力に各分割の duration を明示する。結合後も 30 fps のフレーム数と尺を metadata と照合し、不完全な動画は失敗にする。
 
 ## 長時間 APNG の分割
 
