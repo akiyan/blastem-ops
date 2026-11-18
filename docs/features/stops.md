@@ -23,7 +23,7 @@
 
 本体は、GDB で実行を再開している間、フレームごとに GDB の接続を確認し、Ctrl-C（0x03）を受けたら次の命令の前で止めて `S02` を返す。そのため、中断までの遅れは最大で約1フレーム。
 
-GDB を直接使う方法と対応するパケットは [GDB Remote](gdb.md) を参照。
+GDB を直接使う方法と対応するパケットは [GDB Remote](https://github.com/akiyan/blastem/blob/akiyan/docs/gdb.md) を参照。
 
 ## 書き込みウォッチポイント
 

@@ -2,8 +2,8 @@
 
 [ulalume/blastem](https://github.com/ulalume/blastem)（`5702187402276e7f0aea2ad4e6784ffb187c8c10`）を基礎にしています。ulalume fork の既存機能を引き継ぎ、その上に以下の独自差分を1コミットで載せています。
 
-- GDB Remote（[説明](docs/features/gdb.md)）
-- Unix-domain の制御ソケット（パッド入力、撮影、連続フレーム撮影 `burst`、フレーム指定の入力スクリプト `script`、kit_prof プロファイラー、VRAM/CRAM/VSRAM/レジスターのダンプ。[説明](docs/features/control-socket.md)）
+- GDB Remote（[説明](https://github.com/akiyan/blastem/blob/akiyan/docs/gdb.md)）
+- Unix-domain の制御ソケット（パッド入力、撮影、連続フレーム撮影 `burst`、フレーム指定の入力スクリプト `script`、kit_prof プロファイラー、VRAM/CRAM/VSRAM/レジスターのダンプ。[説明](https://github.com/akiyan/blastem/blob/akiyan/docs/control-socket.md)）
 - `BLASTEM_HIDDEN_WINDOW=1` によるウィンドウ非表示での起動
 - 組み込み UI フォント
 - ヘッドレス実行
@@ -44,7 +44,7 @@
 - JSON parser として yyjson 0.12.0（MIT）を同梱し、システムの JSON ライブラリを不要にする
 - capability: `save_directory`、`sram_flush`
 - 対象は POSIX 上の通常 MD カートリッジ SRAM。EEPROM・flash・CD BRAM・32X・Windows での flush は `unsupported` を返す
-- 詳細: [プロトコル仕様](docs/control-protocol-v2.md)、[SRAM](docs/features/sram.md)
+- 詳細: [プロトコル仕様](https://github.com/akiyan/blastem/blob/akiyan/docs/control-protocol-v2.md)、[SRAM](docs/features/sram.md)
 
 ### 3. 停止中の画面取得
 
@@ -216,7 +216,7 @@
 - `watchpoint_set`・`watchpoint_remove`: GDB の書き込みウォッチポイント（Z2）をシンボル名でも指定できる
 - `cpu_continue` の `timeout_ms`: ブレークポイントに届かなければ CPU を中断し、`interrupted`・停止位置を返す
 - `blastem_start.headless`: 画面サーバーなしで起動する（SDL dummy ドライバー、ソフトウェア描画）
-- AI エージェント向けの英語の操作ガイド `mcp/AGENT_GUIDE.md` を同梱し（MCP の各ツールに加え、GDB の直接利用、制御ソケットの v2・従来コマンド、スクリプト形式、環境変数を含む）、その要約を MCP の初期化応答（instructions）で返す。本体の `.gitignore` は `*.md` を除外しているため、このファイルだけ例外にしている
+- AI エージェント向けの英語の操作ガイド `mcp/AGENT_GUIDE.md` を同梱し（MCP の各ツールに加え、GDB の直接利用、制御ソケットの v2・従来コマンド、スクリプト形式、環境変数を含む）、その要約を MCP の初期化応答（instructions）で返す。GDB Remote・制御ソケット・プロトコル仕様の英語ドキュメントを `docs/` に置く。本体の `.gitignore` は `*.md` を除外しているため、これらだけ例外にしている
 - 使い方: [導入と MCP ホストの設定](docs/setup.md)、[AI エージェント向けガイド](https://github.com/akiyan/blastem/blob/akiyan/mcp/AGENT_GUIDE.md)
 
 ## 回帰試験と CI
