@@ -2,8 +2,8 @@
 
 [ulalume/blastem](https://github.com/ulalume/blastem)（`5702187402276e7f0aea2ad4e6784ffb187c8c10`）を基礎にしています。ulalume fork の既存機能を引き継ぎ、その上に以下の独自差分を1コミットで載せています。
 
-- GDB Remote
-- Unix-domain の制御ソケット（パッド入力、撮影、連続フレーム撮影 `burst`、フレーム指定の入力スクリプト `script`、kit_prof プロファイラー、VRAM/CRAM/VSRAM/レジスターのダンプ）
+- GDB Remote（[説明](docs/features/gdb.md)）
+- Unix-domain の制御ソケット（パッド入力、撮影、連続フレーム撮影 `burst`、フレーム指定の入力スクリプト `script`、kit_prof プロファイラー、VRAM/CRAM/VSRAM/レジスターのダンプ。[説明](docs/features/control-socket.md)）
 - `BLASTEM_HIDDEN_WINDOW=1` によるウィンドウ非表示での起動
 - 組み込み UI フォント
 - ヘッドレス実行

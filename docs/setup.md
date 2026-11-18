@@ -33,7 +33,7 @@ make -C mcp build fixture # MCP サーバー: mcp/blastem-mcp、試験用 ROM: m
 
 試験中の設定と保存先は出力ディレクトリ内に分け、普段の BlastEM 設定・セーブには触れない。Unix ソケットのパス長の制限があるため、一時ファイルは短い `/tmp/akiyan-check.*` に作り、終了時に削除する。
 
-エージェントが MCP を使うときの手順と推奨ツールは、本体の [mcp/AGENT_GUIDE.md](https://github.com/akiyan/blastem/blob/akiyan/mcp/AGENT_GUIDE.md)（英語）にまとめている。MCP サーバーは初期化時にその要約を instructions として返す。
+MCP を使わずに制御ソケットや GDB を直接使う方法は [制御ソケット](features/control-socket.md) と [GDB Remote](features/gdb.md) を参照。エージェントが MCP を使うときの手順と推奨ツールは、本体の [mcp/AGENT_GUIDE.md](https://github.com/akiyan/blastem/blob/akiyan/mcp/AGENT_GUIDE.md)（英語）にまとめている。MCP サーバーは初期化時にその要約を instructions として返す。
 
 ## MCP ホストへの登録
 
