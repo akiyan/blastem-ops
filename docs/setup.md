@@ -55,11 +55,12 @@ MCP ホストから stdio サーバーとして起動する。stdout は MCP の
   "binary_path": "/absolute/path/to/blastem/blastem",
   "rom_path": "/absolute/path/to/local-or-fixture.bin",
   "debug": false,
-  "save_dir": "/absolute/path/to/save-profile"
+  "save_dir": "/absolute/path/to/save-profile",
+  "symbols_path": "/absolute/path/to/symbol.txt"
 }
 ```
 
-`debug: true` は CPU レジスター、メモリ、ブレークポイント、ステップ実行を使う場合だけ指定する。GDB 起動中は、フレーム制御・録音・速度設定を使えない。`save_dir` は省略できる（[SRAM](features/sram.md)）。
+`debug: true` は CPU レジスター、メモリ、ブレークポイント、ステップ実行を使う場合だけ指定する。GDB 起動中は、フレーム制御・録音・速度設定を使えない。`save_dir` は省略できる（[SRAM](features/sram.md)）。`symbols_path` を渡すと、各ツールでアドレスの代わりにシンボル名を使える（[シンボル名の指定](features/symbols.md)）。
 
 ## ツール一覧
 
@@ -78,6 +79,7 @@ MCP ホストから stdio サーバーとして起動する。stdout は MCP の
 | `speed_set` | 停止中に進行速度を 25〜1000% に設定 | GDB なし、停止中 |
 | `ram_read` | work RAM の 1〜256 バイトを読む | 停止中 |
 | `vdp_layout` | 表示モード・スクロール・Plane/ウィンドウの名前表・スプライト一覧をテキストで返す | 停止中 |
+| `symbol_lookup` | シンボルの検索と、アドレスの位置の名前付け | `symbols_path` 付きで起動 |
 | `z80_state` | Z80 のレジスタ・状態・フレームごとのサイクル数・RAM を返す | 停止中 |
 | `line_trace` | 走査線単位の CRAM・VSRAM・レジスタ書き込みと割り込み処理時間を記録する | GDB なし、停止中 |
 | `frame_trace` | 値をフレームごとに記録し、変化したフレームを返す。条件で停止できる | GDB なし、停止中 |
