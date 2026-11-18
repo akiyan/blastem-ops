@@ -8,7 +8,7 @@
 - 組み込み UI フォント
 - ヘッドレス実行
 
-本体は [akiyan/blastem の akiyan ブランチ](https://github.com/akiyan/blastem/tree/akiyan)。コミットメッセージはこのページの URL のみとし、変更の説明と運用文書はこのリポジトリで管理します。
+本体は [akiyan/blastem の akiyan ブランチ](https://github.com/akiyan/blastem/tree/akiyan)。コミットメッセージはこのページの URL のみとし、変更の説明と運用文書はこのリポジトリで日本語で管理します。本体と一緒に配布する英語の説明（`docs/`、`mcp/AGENT_GUIDE.md`）は本体側に置きます（[分担](README.md#文書の言語と置き場所)）。
 
 変更は Mega Drive ソフト全般の開発・検証用です。特定タイトルのシナリオ、シンボル、アドレスの意味は本体と MCP に持たせません。
 

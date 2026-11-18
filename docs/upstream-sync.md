@@ -27,6 +27,10 @@
 
 同じ1コミットへ amend し、変更情報ページに節を追加する。タイトル固有のシナリオ、シンボル、アドレスの意味は本体と MCP に入れない。利用側のプロジェクトは `akiyan` の commit SHA を固定して使う。
 
+## 文書の更新
+
+独自差分を変えたら、このリポジトリの日本語の文書（[変更情報](../blastem_akiyan_fork.md)、`docs/features/`、`releases/`）と、本体の英語の文書（`docs/`、`mcp/AGENT_GUIDE.md`）をそれぞれ更新する。言語と置き場所の分担は [README](../README.md#文書の言語と置き場所) を参照。
+
 ## 課題の管理
 
 不具合と機能の Issue は [akiyan/blastem](https://github.com/akiyan/blastem/issues) で管理する。

@@ -19,6 +19,17 @@ tools/akiyan-check.sh   # 回帰試験。Xvfb・ffmpeg・m68k binutils が必要
 
 MCP ホストには `mcp/blastem-mcp` を stdio サーバーとして登録する。詳細は [導入と MCP ホストの設定](docs/setup.md)。
 
+## 文書の言語と置き場所
+
+| 置き場所 | 言語 | 内容 |
+|---|---|---|
+| このリポジトリ（blastem-ops） | 日本語 | 変更情報、導入・運用・上流追従の手順、機能ごとの説明、検証記録 |
+| 本体（akiyan/blastem の `docs/`、`mcp/AGENT_GUIDE.md`） | 英語 | 本体と一緒に配布する利用者・AI エージェント向けの説明（GDB Remote、制御ソケット、プロトコル仕様、MCP の操作ガイド） |
+
+- このリポジトリの文書は日本語で書き、日本語で更新する。英語の説明が必要な内容は本体側に置き、ここからはリンクする
+- 本体側の英語の文書は、同じ内容をこのリポジトリに日本語で複製しない。本体の機能を変えたら、本体の英語文書とこのリポジトリの日本語文書（変更情報・機能説明）をそれぞれ更新する
+- [統合前の設計記録](docs/history/README.md) は、旧リポジトリの英語の原文をそのまま残している例外
+
 ## 文書
 
 - [AI エージェント向けの操作ガイド（英語、本体の `mcp/AGENT_GUIDE.md`）](https://github.com/akiyan/blastem/blob/akiyan/mcp/AGENT_GUIDE.md)
