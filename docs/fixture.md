@@ -26,5 +26,8 @@ make -C mcp fixture
 | `0xFF000A` | `fixture_raw_high` | パッドの TH=high 時の生値 |
 | `0xFF000B` | `fixture_raw_low` | パッドの TH=low 時の生値 |
 | `0xFF0010` | `fixture_scratch` | 書込み確認用。初期値 `0x11223344` |
+| `0xFF0024` | `fixture_hint_count` | C を押している間の H 割り込みの回数 |
+
+C を押している間は、毎ラインの H 割り込みを有効にし、割り込み処理で CRAM の 0 番（表示に使わない色）に回数を書く。離すと割り込みを止める。
 
 `fixture_breakpoint` は毎フレーム、カウンターと入力の更新直前に1回実行される。試験ではコードのアドレスを固定値で書かず、`symbols.txt` から求める。

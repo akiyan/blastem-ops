@@ -20,12 +20,13 @@ not an advertised feature.
 | `ram_read` | `address`, `size` 1..256 within FF0000..FFFFFF | `paused_work_ram` |
 | `trace` | `frames` 1..36000, `path`, `watches` (1..16), optional `until` | `frame_trace` |
 | `vdp_dump` | `path` (absolute KITVDMP1 file, written while stopped) | `paused_vdp_dump` |
+| `line_trace` | `frames` 1..600, `path`, optional `kinds` (`cram`, `vsram`, `reg`, `int`) | `line_trace` |
 
 `status` labels its stop location `instruction` (GDB), `frame_sync`,
 `paused_loop`, or `event_poll`. The frame is the 32-bit VDP counter. Feature
 details: [SRAM](features/sram.md), [paused screenshot](features/paused-screenshot.md),
 [frame control](features/frame-control.md), [audio](features/audio-capture.md),
-[speed and RAM](features/speed-and-ram.md), [frame trace](features/frame-trace.md), [VDP layout](features/vdp-layout.md).
+[speed and RAM](features/speed-and-ram.md), [frame trace](features/frame-trace.md), [VDP layout](features/vdp-layout.md), [line trace](features/line-trace.md).
 
 The implemented parser also limits each object to 64 fields and requires IDs to
 increase within a connection. It validates UTF-8, duplicate keys, integer-only

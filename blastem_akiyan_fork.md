@@ -132,11 +132,20 @@
 - capability: `paused_vdp_dump`
 - 詳細: [VDP の表示内容のテキスト化](docs/features/vdp-layout.md)
 
+### 10. 走査線単位の VDP 書き込みと割り込みの記録
+
+`vdp_trace.c`、`vdp_trace.h`、`vdp.c`、`genesis.c`、`m68k_core.c`、`m68k_core.h`、`m68k_core_x86.c`、`m68k_internal.h`、`ctrl_v2.c`
+
+- `line_trace` は停止中から1〜600フレーム進め、CRAM・VSRAM・VDP レジスタへの書き込み（VDP が反映した時点）と、割り込みの受付・RTE を、フレーム・ライン（vcounter）・スロット付きで JSONL に書く
+- RTE は直前の割り込み受付と対応付け、その間の 68000 サイクル数を記録する。RTE の検出のため、68000 の JIT が RTE ごとに観測用の関数を呼ぶ（記録していないときは何もしない）
+- capability: `line_trace`
+- 詳細: [走査線単位の記録](docs/features/line-trace.md)
+
 ## 独自変更（MCP サーバー）
 
 `mcp/`（Go、MCP stdio）
 
-### 10. セッション・入力・観測・68000 デバッグ
+### 11. セッション・入力・観測・68000 デバッグ
 
 - 管理対象の BlastEM を1つ起動・確認・停止する: `blastem_start`、`blastem_status`、`blastem_stop`
 - パッド入力: `button_down`、`button_up`、`release_all_buttons`
@@ -149,7 +158,7 @@
   - `breakpoint_set`、`breakpoint_remove`、`cpu_step`、`cpu_continue`
 - 配布可能な自作 MD fixture ROM（ソースからビルド）: `mcp/testdata/fixture/`（[内容](docs/fixture.md)）
 
-### 11. 本体 v2 機能の公開
+### 12. 本体 v2 機能の公開
 
 - `blastem_start.save_dir`
   - 起動前に capability を確認し、保存 profile を OS のファイルロックで排他する。symlink 経由の二重起動も拒否する
@@ -164,6 +173,7 @@
 - `speed_set`、`ram_read`
 - `frame_trace`: 値に名前を付けて記録し、前の記録から変わった名前（`changed`）を付けて返す。応答に含める記録数を制限でき、全記録はファイルに残る
 - `vdp_layout`: 停止中の表示内容をテキストで返す。表示モード、スクロール、Plane A/B・ウィンドウの名前表を画面の行ごとの文字列にしたもの、スプライトのリンク一覧（表示判定、1ラインの上限超え、リンク異常）。パターンデータの CRC32 も付けられる
+- `line_trace`: 走査線単位の書き込み・割り込みを、割り込みレベル別の回数・ライン範囲・処理サイクル数の集計とともに返す。ライン範囲で絞り込める
 - 使い方: [導入と MCP ホストの設定](docs/setup.md)
 
 ## 回帰試験と CI
@@ -173,10 +183,10 @@
 - `tools/akiyan-check.sh` で、本体のビルド、Go の gofmt・vet・race 試験、fixture の生成・検査、本体の Python 試験、MCP の統合試験を順に実行する
 - 本体の Python 試験
   - `test_paths.py`: 保存先の環境変数
-  - `test_control_v2.py`: v2 プロトコル・保存・停止中撮影・フレーム制御・録音・速度・RAM・フレームごとの記録・VDP ダンプ
+  - `test_control_v2.py`: v2 プロトコル・保存・停止中撮影・フレーム制御・録音・速度・RAM・フレームごとの記録・VDP ダンプ・走査線単位の記録
   - `test_wave_writer.py`: WAV writer
   - `test_offline_recording.py`: ヘッドレス録画、MP4 結合、音源別録音と書き込みログ
-- MCP の統合試験は Xvfb 上の fixture で、入力・画像・VDP・GDB・保存・フレーム操作・録音・RAM を確認する
+- MCP の統合試験は Xvfb 上の fixture で、入力・画像・VDP・GDB・保存・フレーム操作・録音・RAM・値の記録・表示内容・走査線単位の記録を確認する
 - GitHub Actions は `akiyan` ブランチへの push と PR で同じ試験を実行する。ulalume fork のリリース用 `build.yml` は `v*` タグでだけ動き、変更していない
 
 ## 保証範囲とライセンス
