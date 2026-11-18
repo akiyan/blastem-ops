@@ -215,7 +215,8 @@
 - 状態と入力: `state_save`・`state_load`・`state_list`・`reset`、フレーム数を指定した `button_press`、フレーム位置を指定した入力列を1回で実行する `input_sequence`。`blastem_start.state_dir` で保存先を指定できる
 - `cpu_continue` の `timeout_ms`: ブレークポイントに届かなければ CPU を中断し、`interrupted`・停止位置を返す
 - `blastem_start.headless`: 画面サーバーなしで起動する（SDL dummy ドライバー、ソフトウェア描画）
-- 使い方: [導入と MCP ホストの設定](docs/setup.md)
+- AI エージェント向けの英語の操作ガイド `mcp/AGENT_GUIDE.md` を同梱し、その要約を MCP の初期化応答（instructions）で返す。本体の `.gitignore` は `*.md` を除外しているため、このファイルだけ例外にしている
+- 使い方: [導入と MCP ホストの設定](docs/setup.md)、[AI エージェント向けガイド](https://github.com/akiyan/blastem/blob/akiyan/mcp/AGENT_GUIDE.md)
 
 ## 回帰試験と CI
 

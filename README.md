@@ -21,6 +21,7 @@ MCP ホストには `mcp/blastem-mcp` を stdio サーバーとして登録す�
 
 ## 文書
 
+- [AI エージェント向けの操作ガイド（英語、本体の `mcp/AGENT_GUIDE.md`）](https://github.com/akiyan/blastem/blob/akiyan/mcp/AGENT_GUIDE.md)
 - [akiyan fork の変更情報](blastem_akiyan_fork.md)
 - [導入と MCP ホストの設定](docs/setup.md)
 - [制御プロトコル v2](docs/control-protocol-v2.md)
