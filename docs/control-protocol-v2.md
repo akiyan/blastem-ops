@@ -4,9 +4,10 @@ Status: accepted for M2 implementation (2026-09-01)
 
 Implementation status (akiyan branch, 2026-11-18): the commands below are
 implemented and advertised through `hello` capabilities. Everything else in this
-document (`resume`, `press_frames`, `reset`, `save_state`/`load_state`, v2 forms
-of `pad`/`vramdump`, ROM hashes, 64-bit frame accounting) is the target contract,
-not an advertised feature.
+document (`resume`, `press_frames` in the core, hard `reset`, `BLASTEM_STATE_DIR`
+headers with SHA-256, v2 forms of `pad`/`vramdump`, 64-bit frame accounting) is the
+target contract, not an advertised feature. Frame-counted input is implemented in
+MCP (`button_press`, `input_sequence`) on top of `advance`.
 
 | Command | Params | Capability |
 |---|---|---|
@@ -21,14 +22,18 @@ not an advertised feature.
 | `trace` | `frames` 1..36000, `path`, `watches` (1..16), optional `until` | `frame_trace` |
 | `vdp_dump` | `path` (absolute KITVDMP1 file, written while stopped) | `paused_vdp_dump` |
 | `z80_state`, `z80_read` | none; `address` 0..1FFF and `size` 1..256 for `z80_read` | `z80_observation` |
+| `save_state`, `load_state` | `name` (1..64 of `[A-Za-z0-9][A-Za-z0-9._-]*`); files in `BLASTEM_STATE_DIR` with a ROM SHA-1 header | `state` |
+| `reset` | optional `kind`: `soft` (hard is `unsupported`) | `reset` |
 | `line_trace` | `frames` 1..600, `path`, optional `kinds` (`cram`, `vsram`, `reg`, `int`) | `z80_state`, `z80_read` | none; `address` 0..1FFF and `size` 1..256 for `z80_read` | `z80_observation` |
+| `save_state`, `load_state` | `name` (1..64 of `[A-Za-z0-9][A-Za-z0-9._-]*`); files in `BLASTEM_STATE_DIR` with a ROM SHA-1 header | `state` |
+| `reset` | optional `kind`: `soft` (hard is `unsupported`) | `reset` |
 | `line_trace` |
 
 `status` labels its stop location `instruction` (GDB), `frame_sync`,
 `paused_loop`, or `event_poll`. The frame is the 32-bit VDP counter. Feature
 details: [SRAM](features/sram.md), [paused screenshot](features/paused-screenshot.md),
 [frame control](features/frame-control.md), [audio](features/audio-capture.md),
-[speed and RAM](features/speed-and-ram.md), [frame trace](features/frame-trace.md), [VDP layout](features/vdp-layout.md), [line trace](features/line-trace.md), [Z80](features/z80.md).
+[speed and RAM](features/speed-and-ram.md), [frame trace](features/frame-trace.md), [VDP layout](features/vdp-layout.md), [line trace](features/line-trace.md), [Z80](features/z80.md), [state and input](features/state-and-input.md). `status` also returns `rom_sha1`.
 
 The implemented parser also limits each object to 64 fields and requires IDs to
 increase within a connection. It validates UTF-8, duplicate keys, integer-only

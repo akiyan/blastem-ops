@@ -159,11 +159,21 @@
 - capability: `z80_observation`
 - 詳細: [Z80 の観測](docs/features/z80.md)
 
+### 13. 名前付きの状態保存とリセット
+
+`ctrl_state.c`、`ctrl_state.h`、`ctrl_v2.c`
+
+- `save_state`・`load_state` は停止中に、`BLASTEM_STATE_DIR` の `<名前>.state` へ機械の状態を保存・復元する。ROM の SHA-1 とデータの SHA-1 を持つヘッダーで、別の ROM や壊れたファイルを拒否する。保存は fsync・rename で確定してから応答する
+- `reset` は乱数の遅延なしで、次に進めた最初のサイクルにリセットをかける
+- `status` に ROM の SHA-1 を追加
+- capability: `state`、`reset`
+- 詳細: [状態保存・リセット・入力](docs/features/state-and-input.md)
+
 ## 独自変更（MCP サーバー）
 
 `mcp/`（Go、MCP stdio）
 
-### 13. セッション・入力・観測・68000 デバッグ
+### 14. セッション・入力・観測・68000 デバッグ
 
 - 管理対象の BlastEM を1つ起動・確認・停止する: `blastem_start`、`blastem_status`、`blastem_stop`
 - パッド入力: `button_down`、`button_up`、`release_all_buttons`
@@ -176,7 +186,7 @@
   - `breakpoint_set`、`breakpoint_remove`、`cpu_step`、`cpu_continue`
 - 配布可能な自作 MD fixture ROM（ソースからビルド）: `mcp/testdata/fixture/`（[内容](docs/fixture.md)）
 
-### 14. 本体 v2 機能の公開
+### 15. 本体 v2 機能の公開
 
 - `blastem_start.save_dir`
   - 起動前に capability を確認し、保存 profile を OS のファイルロックで排他する。symlink 経由の二重起動も拒否する
@@ -194,6 +204,7 @@
 - `line_trace`: 走査線単位の書き込み・割り込みを、割り込みレベル別の回数・ライン範囲・処理サイクル数の集計とともに返す。ライン範囲で絞り込める
 - `z80_state`: Z80 のレジスタ・状態・フレームごとのサイクル数と、任意の Z80 RAM 範囲を返す
 - シンボル名: `blastem_start.symbols_path` で `nm -n` 形式のファイルを読み、`ram_read`・`memory_read`/`memory_write`・ブレークポイント・`frame_trace` でシンボル名（オフセット付き可）を使える。応答に最寄りのシンボル位置を付け、`symbol_lookup` で検索できる（[詳細](docs/features/symbols.md)）
+- 状態と入力: `state_save`・`state_load`・`state_list`・`reset`、フレーム数を指定した `button_press`、フレーム位置を指定した入力列を1回で実行する `input_sequence`。`blastem_start.state_dir` で保存先を指定できる
 - `blastem_start.headless`: 画面サーバーなしで起動する（SDL dummy ドライバー、ソフトウェア描画）
 - 使い方: [導入と MCP ホストの設定](docs/setup.md)
 
@@ -204,10 +215,10 @@
 - `tools/akiyan-check.sh` で、本体のビルド、Go の gofmt・vet・race 試験、fixture の生成・検査、本体の Python 試験、MCP の統合試験を順に実行する
 - 本体の Python 試験
   - `test_paths.py`: 保存先の環境変数
-  - `test_control_v2.py`: v2 プロトコル・保存・停止中撮影・フレーム制御・録音・速度・RAM・フレームごとの記録・VDP ダンプ・走査線単位の記録・Z80
+  - `test_control_v2.py`: v2 プロトコル・保存・停止中撮影・フレーム制御・録音・速度・RAM・フレームごとの記録・VDP ダンプ・走査線単位の記録・Z80・状態保存とリセット
   - `test_wave_writer.py`: WAV writer
   - `test_offline_recording.py`: ヘッドレス録画、MP4 結合、音源別録音と書き込みログ
-- MCP の統合試験は Xvfb 上の fixture で、入力・画像・VDP・GDB・保存・フレーム操作・録音・RAM・値の記録・表示内容・走査線単位の記録・Z80 を確認する
+- MCP の統合試験は Xvfb 上の fixture で、入力・画像・VDP・GDB・保存・フレーム操作・録音・RAM・値の記録・表示内容・走査線単位の記録・Z80・状態保存と入力列を確認する
 - MCP 統合試験と本体の制御試験は、Xvfb 上と画面サーバーなしの両方で実行する
 - GitHub Actions は `akiyan` ブランチへの push と PR で同じ試験を実行する。ulalume fork のリリース用 `build.yml` は `v*` タグでだけ動き、変更していない
 

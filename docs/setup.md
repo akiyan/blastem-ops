@@ -82,6 +82,9 @@ MCP ホストから stdio サーバーとして起動する。stdout は MCP の
 | `speed_set` | 停止中に進行速度を 25〜1000% に設定 | GDB なし、停止中 |
 | `ram_read` | work RAM の 1〜256 バイトを読む | 停止中 |
 | `vdp_layout` | 表示モード・スクロール・Plane/ウィンドウの名前表・スプライト一覧をテキストで返す | 停止中 |
+| `state_save` / `state_load` / `state_list` | 名前付きの状態保存・復元・一覧 | GDB なし、停止中 |
+| `reset` | 決定的なリセット（次に進めたときに実行） | GDB なし、停止中 |
+| `button_press` / `input_sequence` | フレーム数・フレーム位置を指定した入力 | GDB なし、停止中 |
 | `symbol_lookup` | シンボルの検索と、アドレスの位置の名前付け | `symbols_path` 付きで起動 |
 | `z80_state` | Z80 のレジスタ・状態・フレームごとのサイクル数・RAM を返す | 停止中 |
 | `line_trace` | 走査線単位の CRAM・VSRAM・レジスタ書き込みと割り込み処理時間を記録する | GDB なし、停止中 |
