@@ -18,12 +18,13 @@ not an advertised feature.
 | `audio_start`, `audio_stop` | `path`, `max_seconds` 1..30 for `audio_start` | `host_audio_capture` |
 | `speed` | `percent` 25..1000 | `speed_control` |
 | `ram_read` | `address`, `size` 1..256 within FF0000..FFFFFF | `paused_work_ram` |
+| `trace` | `frames` 1..36000, `path`, `watches` (1..16), optional `until` | `frame_trace` |
 
 `status` labels its stop location `instruction` (GDB), `frame_sync`,
 `paused_loop`, or `event_poll`. The frame is the 32-bit VDP counter. Feature
 details: [SRAM](features/sram.md), [paused screenshot](features/paused-screenshot.md),
 [frame control](features/frame-control.md), [audio](features/audio-capture.md),
-[speed and RAM](features/speed-and-ram.md).
+[speed and RAM](features/speed-and-ram.md), [frame trace](features/frame-trace.md).
 
 The implemented parser also limits each object to 64 fields and requires IDs to
 increase within a connection. It validates UTF-8, duplicate keys, integer-only

@@ -77,6 +77,7 @@ MCP ホストから stdio サーバーとして起動する。stdout は MCP の
 | `audio_capture` | 指定フレーム数を進めて WAV を返す | GDB なし |
 | `speed_set` | 停止中に進行速度を 25〜1000% に設定 | GDB なし、停止中 |
 | `ram_read` | work RAM の 1〜256 バイトを読む | 停止中 |
+| `frame_trace` | 値をフレームごとに記録し、変化したフレームを返す。条件で停止できる | GDB なし、停止中 |
 | `save_flush` | SRAM を確実に保存する | `save_dir` 付き |
 | `cpu_registers` / `memory_read` / `memory_write` | 68000 のレジスター・メモリ | debug、CPU 停止中 |
 | `breakpoint_set` / `breakpoint_remove` / `cpu_step` / `cpu_continue` | 68000 のデバッグ | debug |

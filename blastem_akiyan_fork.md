@@ -112,11 +112,21 @@
 - `tools/mux_capture.py` は、完了フラグ・全分割の decode フレーム数・音声の長さを確認し、正確なフレーム時間で MP4 に結合する
 - 詳細: [ヘッドレス録画](docs/features/offline-recording.md)
 
+### 8. フレームごとの値の記録と条件停止
+
+`ctrl_v2.c`
+
+- `trace` は停止中から最大36,000フレーム進め、1〜16個の値（work RAM、CRAM、VSRAM、VDP レジスタ、VRAM、Z80 RAM）をフレーム境界ごとに読む
+- 値が変わったフレームだけを JSONL ファイルに書く（開始時点は必ず記録）
+- `until` で、値の一致・不一致・変化（マスク付き）を満たしたフレームに止める。`interrupt` と切断でも止まる
+- capability: `frame_trace`
+- 詳細: [フレームごとの値の記録](docs/features/frame-trace.md)
+
 ## 独自変更（MCP サーバー）
 
 `mcp/`（Go、MCP stdio）
 
-### 8. セッション・入力・観測・68000 デバッグ
+### 9. セッション・入力・観測・68000 デバッグ
 
 - 管理対象の BlastEM を1つ起動・確認・停止する: `blastem_start`、`blastem_status`、`blastem_stop`
 - パッド入力: `button_down`、`button_up`、`release_all_buttons`
@@ -129,7 +139,7 @@
   - `breakpoint_set`、`breakpoint_remove`、`cpu_step`、`cpu_continue`
 - 配布可能な自作 MD fixture ROM（ソースからビルド）: `mcp/testdata/fixture/`（[内容](docs/fixture.md)）
 
-### 9. 本体 v2 機能の公開
+### 10. 本体 v2 機能の公開
 
 - `blastem_start.save_dir`
   - 起動前に capability を確認し、保存 profile を OS のファイルロックで排他する。symlink 経由の二重起動も拒否する
@@ -142,6 +152,7 @@
 - `audio_capture {"frames": 1〜600}`
   - 停止・録音開始・指定フレームの進行・録音終了をまとめて行い、WAV を MCP の audio content で返す
 - `speed_set`、`ram_read`
+- `frame_trace`: 値に名前を付けて記録し、前の記録から変わった名前（`changed`）を付けて返す。応答に含める記録数を制限でき、全記録はファイルに残る
 - 使い方: [導入と MCP ホストの設定](docs/setup.md)
 
 ## 回帰試験と CI
@@ -151,7 +162,7 @@
 - `tools/akiyan-check.sh` で、本体のビルド、Go の gofmt・vet・race 試験、fixture の生成・検査、本体の Python 試験、MCP の統合試験を順に実行する
 - 本体の Python 試験
   - `test_paths.py`: 保存先の環境変数
-  - `test_control_v2.py`: v2 プロトコル・保存・停止中撮影・フレーム制御・録音・速度・RAM
+  - `test_control_v2.py`: v2 プロトコル・保存・停止中撮影・フレーム制御・録音・速度・RAM・フレームごとの記録
   - `test_wave_writer.py`: WAV writer
   - `test_offline_recording.py`: ヘッドレス録画と MP4 結合
 - MCP の統合試験は Xvfb 上の fixture で、入力・画像・VDP・GDB・保存・フレーム操作・録音・RAM を確認する
