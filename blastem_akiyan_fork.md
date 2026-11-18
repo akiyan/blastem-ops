@@ -118,7 +118,7 @@
 
 `ctrl_v2.c`
 
-- `trace` は停止中から最大36,000フレーム進め、1〜16個の値（work RAM、CRAM、VSRAM、VDP レジスタ、VRAM、Z80 RAM）をフレーム境界ごとに読む
+- `trace` は停止中から最大36,000フレーム進め、1〜16個の値（work RAM、CRAM、VSRAM、VDP レジスタ、VRAM、Z80 RAM、Z80 のフレームごとのサイクル数）をフレーム境界ごとに読む
 - 値が変わったフレームだけを JSONL ファイルに書く（開始時点は必ず記録）
 - `until` で、値の一致・不一致・変化（マスク付き）を満たしたフレームに止める。`interrupt` と切断でも止まる
 - capability: `frame_trace`
@@ -141,11 +141,21 @@
 - capability: `line_trace`
 - 詳細: [走査線単位の記録](docs/features/line-trace.md)
 
+### 11. サウンド CPU（Z80）の観測
+
+`z80_to_x86.c`、`z80_to_x86.h`、`ctrl_v2.c`
+
+- Z80 の実行関数で、実行・68000 のバス要求による停止・リセットの区間をマスタークロックで積算する
+- `z80_state` は停止中に Z80 のレジスタ（PC を除く）、リセット・バス要求の状態、直前のフレームと累計のサイクル数を返す。`z80_read` は Z80 RAM を 1〜256 バイト読む
+- `trace` の値に `z80_frame`（直前のフレームのサイクル数）を追加
+- capability: `z80_observation`
+- 詳細: [Z80 の観測](docs/features/z80.md)
+
 ## 独自変更（MCP サーバー）
 
 `mcp/`（Go、MCP stdio）
 
-### 11. セッション・入力・観測・68000 デバッグ
+### 12. セッション・入力・観測・68000 デバッグ
 
 - 管理対象の BlastEM を1つ起動・確認・停止する: `blastem_start`、`blastem_status`、`blastem_stop`
 - パッド入力: `button_down`、`button_up`、`release_all_buttons`
@@ -158,7 +168,7 @@
   - `breakpoint_set`、`breakpoint_remove`、`cpu_step`、`cpu_continue`
 - 配布可能な自作 MD fixture ROM（ソースからビルド）: `mcp/testdata/fixture/`（[内容](docs/fixture.md)）
 
-### 12. 本体 v2 機能の公開
+### 13. 本体 v2 機能の公開
 
 - `blastem_start.save_dir`
   - 起動前に capability を確認し、保存 profile を OS のファイルロックで排他する。symlink 経由の二重起動も拒否する
@@ -174,6 +184,7 @@
 - `frame_trace`: 値に名前を付けて記録し、前の記録から変わった名前（`changed`）を付けて返す。応答に含める記録数を制限でき、全記録はファイルに残る
 - `vdp_layout`: 停止中の表示内容をテキストで返す。表示モード、スクロール、Plane A/B・ウィンドウの名前表を画面の行ごとの文字列にしたもの、スプライトのリンク一覧（表示判定、1ラインの上限超え、リンク異常）。パターンデータの CRC32 も付けられる
 - `line_trace`: 走査線単位の書き込み・割り込みを、割り込みレベル別の回数・ライン範囲・処理サイクル数の集計とともに返す。ライン範囲で絞り込める
+- `z80_state`: Z80 のレジスタ・状態・フレームごとのサイクル数と、任意の Z80 RAM 範囲を返す
 - 使い方: [導入と MCP ホストの設定](docs/setup.md)
 
 ## 回帰試験と CI
@@ -183,10 +194,10 @@
 - `tools/akiyan-check.sh` で、本体のビルド、Go の gofmt・vet・race 試験、fixture の生成・検査、本体の Python 試験、MCP の統合試験を順に実行する
 - 本体の Python 試験
   - `test_paths.py`: 保存先の環境変数
-  - `test_control_v2.py`: v2 プロトコル・保存・停止中撮影・フレーム制御・録音・速度・RAM・フレームごとの記録・VDP ダンプ・走査線単位の記録
+  - `test_control_v2.py`: v2 プロトコル・保存・停止中撮影・フレーム制御・録音・速度・RAM・フレームごとの記録・VDP ダンプ・走査線単位の記録・Z80
   - `test_wave_writer.py`: WAV writer
   - `test_offline_recording.py`: ヘッドレス録画、MP4 結合、音源別録音と書き込みログ
-- MCP の統合試験は Xvfb 上の fixture で、入力・画像・VDP・GDB・保存・フレーム操作・録音・RAM・値の記録・表示内容・走査線単位の記録を確認する
+- MCP の統合試験は Xvfb 上の fixture で、入力・画像・VDP・GDB・保存・フレーム操作・録音・RAM・値の記録・表示内容・走査線単位の記録・Z80 を確認する
 - GitHub Actions は `akiyan` ブランチへの push と PR で同じ試験を実行する。ulalume fork のリリース用 `build.yml` は `v*` タグでだけ動き、変更していない
 
 ## 保証範囲とライセンス
@@ -202,5 +213,5 @@
 ## 検証と運用
 
 - [導入と MCP ホストの設定](docs/setup.md)、[上流への追従とコミット形式](docs/upstream-sync.md)
-- [統合時の検証記録](releases/2026-11-18.md)、[上流追従の記録](releases/2026-11-18-upstream-sync.md)
+- [統合時の検証記録](releases/2026-11-18.md)、[上流追従の記録](releases/2026-11-18-upstream-sync.md)、[観測機能の追加](releases/2026-11-18-observation.md)
 - [統合前の設計記録](docs/history/README.md)
