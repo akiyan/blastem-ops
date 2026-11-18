@@ -97,7 +97,7 @@
 
 ### 7. 単体 CLI でのヘッドレス録画・録音
 
-`blastem.c`、`render.h`、`render_sdl.c`、`png.c`、`png.h`、`tools/mux_capture.py`
+`blastem.c`、`render.h`、`render_sdl.c`、`png.c`、`png.h`、`sound_trace.c`、`sound_trace.h`、`ym2612.c`、`psg.c`、`tools/mux_capture.py`、`tools/record_stems.py`
 
 - `--record PREFIX FRAMES [--record-input FILE]` は、画面サーバー・音声デバイス・外部エンコーダーなしで APNG と WAV を出力する
 - 実時間待ちをせず、ゲーム内の時間を保ったまま収録する
@@ -110,7 +110,9 @@
 - 次の場合は明示的に失敗する: interlace、途中の NTSC/PAL 切替、別機種、`-b` との併用
 - 既存 APNG の終了処理で、acTL のフレーム数を書き換えた後に CRC を更新していなかった点を修正した
 - `tools/mux_capture.py` は、完了フラグ・全分割の decode フレーム数・音声の長さを確認し、正確なフレーム時間で MP4 に結合する
-- 詳細: [ヘッドレス録画](docs/features/offline-recording.md)
+- `--record-mute` でチャンネル（FM1〜6、DAC、PSG トーン1〜3、ノイズ）を出力から外す。`--record-no-video` は音声と JSON だけを書く。`--record-sound-log` は YM2612・PSG への書き込みを1始まりのフレーム番号付きで記録する（DAC サンプルはフレームごとの件数）
+- `tools/record_stems.py` は、ステムごとに収録を繰り返して音源別の WAV、フレームごとの AC RMS・ピーク・DC、有音区間、ミックスとの差を出力する
+- 詳細: [ヘッドレス録画](docs/features/offline-recording.md)、[音源別の録音と書き込みログ](docs/features/audio-stems.md)
 
 ### 8. フレームごとの値の記録と条件停止
 
@@ -173,7 +175,7 @@
   - `test_paths.py`: 保存先の環境変数
   - `test_control_v2.py`: v2 プロトコル・保存・停止中撮影・フレーム制御・録音・速度・RAM・フレームごとの記録・VDP ダンプ
   - `test_wave_writer.py`: WAV writer
-  - `test_offline_recording.py`: ヘッドレス録画と MP4 結合
+  - `test_offline_recording.py`: ヘッドレス録画、MP4 結合、音源別録音と書き込みログ
 - MCP の統合試験は Xvfb 上の fixture で、入力・画像・VDP・GDB・保存・フレーム操作・録音・RAM を確認する
 - GitHub Actions は `akiyan` ブランチへの push と PR で同じ試験を実行する。ulalume fork のリリース用 `build.yml` は `v*` タグでだけ動き、変更していない
 

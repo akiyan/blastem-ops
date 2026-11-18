@@ -24,6 +24,8 @@ mkdir -p .local/capture-demo
 
 既存のプレイと保存先を分けたい場合は、`XDG_DATA_HOME` に専用ディレクトリの絶対パスを指定する。通常の設定・SRAM の読込み規則はそのまま適用される。
 
+音源ごとの録音や書き込みログは [音源別の録音と書き込みログ](audio-stems.md) を参照（`--record-mute`、`--record-no-video`、`--record-sound-log`）。
+
 ## 出力
 
 - `PREFIX.apng`、`PREFIX.part0001.apng` 以降: 1,800フレーム単位のロスレス映像
