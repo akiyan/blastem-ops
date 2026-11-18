@@ -25,7 +25,7 @@
 
 ## 対象外
 
-対象は単体 MD の通常 SDL 同期。GDB 起動時、CD・32X、threaded・external 同期では `unsupported` を返す。GDB の停止・続行とフレーム制御の統合は未実装。
+対象は単体 MD の通常 SDL 同期。GDB 起動時、CD・32X、threaded・external 同期では `unsupported` を返す。GDB の停止との使い分けは [停止の種類と GDB 実行の中断](stops.md) を参照。
 
 ## 試験
 

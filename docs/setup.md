@@ -91,7 +91,7 @@ MCP ホストから stdio サーバーとして起動する。stdout は MCP の
 | `frame_trace` | 値をフレームごとに記録し、変化したフレームを返す。条件で停止できる | GDB なし、停止中 |
 | `save_flush` | SRAM を確実に保存する | `save_dir` 付き |
 | `cpu_registers` / `memory_read` / `memory_write` | 68000 のレジスター・メモリ | debug、CPU 停止中 |
-| `breakpoint_set` / `breakpoint_remove` / `cpu_step` / `cpu_continue` | 68000 のデバッグ | debug |
+| `breakpoint_set` / `breakpoint_remove` / `cpu_step` / `cpu_continue` | 68000 のデバッグ。`cpu_continue` は期限で中断できる | debug |
 
 ボタン名は `up down left right a b c x y z start mode`。同じパッドで反対方向の同時押しは拒否する。
 
@@ -112,7 +112,7 @@ MCP ホストから stdio サーバーとして起動する。stdout は MCP の
 - MCP サーバー1プロセスにつき、管理できるセッションは1つ
 - メモリ読み書きは1回あたり 64 KiB まで
 - ROM は信頼できる入手元のものを使い、一般ユーザー権限で実行する
-- `cpu_continue` を使う前に、到達可能なブレークポイントを設定する。実行中の CPU を任意の位置で中断することはできない
+- `cpu_continue` は `timeout_ms`（既定 10 秒）でブレークポイントに届かなければ CPU を中断し、止まった位置を返す（[停止の種類と GDB 実行の中断](features/stops.md)）
 
 ## トラブルシューティング
 
