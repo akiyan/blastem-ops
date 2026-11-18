@@ -94,6 +94,7 @@ MCP ホストから stdio サーバーとして起動する。stdout は MCP の
 | `save_flush` | SRAM を確実に保存する | `save_dir` 付き |
 | `cpu_registers` / `memory_read` / `memory_write` | 68000 のレジスター・メモリ | debug、CPU 停止中 |
 | `breakpoint_set` / `breakpoint_remove` / `cpu_step` / `cpu_continue` | 68000 のデバッグ。`cpu_continue` は期限で中断できる | debug |
+| `watchpoint_set` / `watchpoint_remove` | 指定範囲への書き込みで止める（書き込みのみ） | debug |
 
 ボタン名は `up down left right a b c x y z start mode`。同じパッドで反対方向の同時押しは拒否する。
 

@@ -12,7 +12,7 @@
 | 操作 | フレーム境界 | 命令境界（GDB） |
 |---|---|---|
 | `ram_read`、`z80_state`、`vdp_layout`、`paused_screenshot`、`save_flush` | 可 | 可 |
-| `cpu_registers`、`memory_read`/`write`、ブレークポイント、`cpu_step`、`cpu_continue` | —（GDB なしの起動では使えない） | 可 |
+| `cpu_registers`、`memory_read`/`write`、ブレークポイント、書き込みウォッチポイント、`cpu_step`、`cpu_continue` | —（GDB なしの起動では使えない） | 可 |
 | `frame_advance`、`frame_trace`、`line_trace`、`audio_capture`、`speed_set`、`button_press`、`input_sequence`、`state_save`/`load`、`reset` | 可 | 不可（`unsupported`） |
 
 命令境界で止まっているとき、`paused_screenshot` は最後に描き終えたフレームを返す。CPU はそのフレームより先の、次のフレームの途中にいることがある。`ram_read` の `frame` はその時点の VDP のフレーム番号。
@@ -22,6 +22,10 @@
 `cpu_continue` は、`timeout_ms`（既定 10,000、最大 600,000）以内にブレークポイントへ到達しなければ CPU を止める。応答の `interrupted` が true、`stop.signal` が 2（SIGINT）になり、`pc`・`pc_location` で止まった位置がわかる。到達しないブレークポイントや無限ループで、検証が止まり続けることはない。
 
 本体は、GDB で実行を再開している間、フレームごとに GDB の接続を確認し、Ctrl-C（0x03）を受けたら次の命令の前で止めて `S02` を返す。そのため、中断までの遅れは最大で約1フレーム。
+
+## 書き込みウォッチポイント
+
+`watchpoint_set {symbol|address, size}` は、その範囲へ 68000 が書き込んだ直後に CPU を止める。`cpu_continue` の停止応答は `T05watch:アドレス` になり、`cpu_registers` の `pc_location` で書き込んだ処理がわかる。読み出し・アクセスのウォッチポイントは本体が対応していない。
 
 ## 切断・期限切れ
 
