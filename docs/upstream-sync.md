@@ -5,7 +5,7 @@
 - `main`: ulalume/blastem の追従用。独自の変更は載せない
 - `akiyan`: 既定ブランチ。`main` の固定した commit の上に独自差分の1コミットを載せる
 
-初回の基準は ulalume/blastem の `4b71bfec3b5919367c5843f23c22c76ac24aa38c`。
+初回の基準は ulalume/blastem の `4b71bfec3b5919367c5843f23c22c76ac24aa38c`。現在の基準は `5702187402276e7f0aea2ad4e6784ffb187c8c10`（2026-11-18 追従）。追従前の独自コミットは `akiyan-<日付>-<旧基準の短縮SHA>` のタグで保持する。
 
 ## 更新手順
 

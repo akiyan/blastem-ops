@@ -1,9 +1,10 @@
 # BlastEM akiyan fork 変更情報
 
-[ulalume/blastem](https://github.com/ulalume/blastem)（`4b71bfec3b5919367c5843f23c22c76ac24aa38c`）を基礎にしています。ulalume fork の既存機能を引き継ぎ、その上に以下の独自差分を1コミットで載せています。
+[ulalume/blastem](https://github.com/ulalume/blastem)（`5702187402276e7f0aea2ad4e6784ffb187c8c10`）を基礎にしています。ulalume fork の既存機能を引き継ぎ、その上に以下の独自差分を1コミットで載せています。
 
 - GDB Remote
-- Unix-domain の制御ソケット（パッド入力、撮影、kit_prof プロファイラー、VRAM/CRAM/VSRAM/レジスターのダンプ）
+- Unix-domain の制御ソケット（パッド入力、撮影、連続フレーム撮影 `burst`、フレーム指定の入力スクリプト `script`、kit_prof プロファイラー、VRAM/CRAM/VSRAM/レジスターのダンプ）
+- `BLASTEM_HIDDEN_WINDOW=1` によるウィンドウ非表示での起動
 - 組み込み UI フォント
 - ヘッドレス実行
 
@@ -169,5 +170,5 @@
 ## 検証と運用
 
 - [導入と MCP ホストの設定](docs/setup.md)、[上流への追従とコミット形式](docs/upstream-sync.md)
-- [統合時の検証記録](releases/2026-11-18.md)
+- [統合時の検証記録](releases/2026-11-18.md)、[上流追従の記録](releases/2026-11-18-upstream-sync.md)
 - [統合前の設計記録](docs/history/README.md)
