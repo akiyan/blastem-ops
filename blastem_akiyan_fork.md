@@ -1,4 +1,6 @@
-# BlastEM akiyan fork 変更情報
+# BlastEM akiyan fork 変更情報（メガドライブ用）
+
+このフォークの AI エージェント向け操作・観測機能は、メガドライブ（Mega Drive / Genesis）のソフト開発・動作検証を対象としています。本体は、ゲームギアなど上流が対応する機種のエミュレーション機能も引き継いでいます。
 
 [ulalume/blastem](https://github.com/ulalume/blastem)（`5702187402276e7f0aea2ad4e6784ffb187c8c10`）を基礎にしています。ulalume fork の既存機能を引き継ぎ、その上に以下の独自差分を1コミットで載せています。
 
@@ -10,11 +12,11 @@
 
 本体は [akiyan/blastem の akiyan ブランチ](https://github.com/akiyan/blastem/tree/akiyan)。コミットメッセージはこのページの URL のみとし、変更の説明と運用文書はこのリポジトリで日本語で管理します。本体と一緒に配布する英語の説明（`docs/`、`mcp/AGENT_GUIDE.md`）は本体側に置きます（[分担](README.md#文書の言語と置き場所)）。
 
-変更は Mega Drive ソフト全般の開発・検証用です。特定タイトルのシナリオ、シンボル、アドレスの意味は本体と MCP に持たせません。
+特定タイトルのシナリオ、シンボル、アドレスの意味は本体と MCP に持たせません。
 
 ## AI エージェント向け操作の比較
 
-比較基準は取り込み時の公式上流 `6e255c36d1fa` です。GDB、Unix 制御ソケット、MCP、単体 CLI は `akiyan` 版の操作経路です。 [公式上流の README](https://www.retrodev.com/repos/blastem/file/6e255c36d1fa/README)
+比較対象は通常のメガドライブ用カートリッジです。比較基準は取り込み時の公式上流 `6e255c36d1fa` です。GDB、Unix 制御ソケット、MCP、単体 CLI は `akiyan` 版の操作経路です。 [公式上流の README](https://www.retrodev.com/repos/blastem/file/6e255c36d1fa/README)
 
 **✗ 非対応　△ GUI で可　◯ 自動操作可**
 
