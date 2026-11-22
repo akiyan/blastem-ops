@@ -151,6 +151,8 @@ Unix での GDB の localhost TCP 接続は ulalume 版で追加されました�
 
 - `--record PREFIX FRAMES [--record-input FILE]` は、画面サーバー・音声デバイス・外部エンコーダーなしで APNG と WAV を出力する
 - 実時間待ちをせず、ゲーム内の時間を保ったまま収録する
+- メガCDのディスク起動にも対応し、フレーム指定入力でBIOSからの操作を再現できる。WAVにはRF5C164を含むミックス、`active_areas` にはメガCDでのVDPの有効表示矩形を記録する
+- ウィンドウのない実行中にテキストデバッガーが表示の更新を要求したときは、その更新を省略する
 - 出力するファイル
   - `PREFIX.apng`: 1,800フレームごとに分割する。NTSC は 320×240、PAL は 320×256 で、H32 の画面は中央に配置する
   - `PREFIX.wav`: 44,100 Hz、16 bit、stereo
@@ -286,8 +288,8 @@ Unix での GDB の localhost TCP 接続は ulalume 版で追加されました�
 
 ## 保証範囲とライセンス
 
-- 対象は Linux x86_64 の SDL 版、通常の MD カートリッジ
-- CD、32X、Windows、big-endian ホスト、任意の savestate は検証記録の対象外
+- 対象は Linux x86_64 の SDL 版と通常の MD カートリッジ。メガCDは単体CLIのオフライン録画も対象
+- メガCDの制御ソケット v2、32X、Windows、big-endian ホスト、任意の savestate は検証記録の対象外
 - ライセンス
   - BlastEM 本体と、本体ソースへの変更は GPL-3.0-or-later
   - ulalume fork の変更は The Unlicense（`COPYING.fork`）
@@ -298,4 +300,5 @@ Unix での GDB の localhost TCP 接続は ulalume 版で追加されました�
 
 - [導入と MCP ホストの設定](docs/setup.md)、[上流への追従とコミット形式](docs/upstream-sync.md)
 - [統合時の検証記録](releases/2026-11-18.md)、[上流追従の記録](releases/2026-11-18-upstream-sync.md)、[観測機能の追加](releases/2026-11-18-observation.md)、[作成中の入力列からの録画](releases/2026-11-22-record-follow.md)
+- [メガCDのヘッドレス録画](releases/2026-11-23-sega-cd-recording.md)
 - [統合前の設計記録](docs/history/README.md)

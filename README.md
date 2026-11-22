@@ -40,6 +40,7 @@ MCP ホストには `mcp/blastem-mcp` を stdio サーバーとして登録す�
 - [試験用 fixture ROM](docs/fixture.md)
 - [上流への追従](docs/upstream-sync.md)
 - [統合時の検証記録](releases/2026-11-18.md)、[上流追従の記録](releases/2026-11-18-upstream-sync.md)、[観測機能の追加](releases/2026-11-18-observation.md)、[作成中の入力列からの録画](releases/2026-11-22-record-follow.md)
+- [メガCDのヘッドレス録画](releases/2026-11-23-sega-cd-recording.md)
 - [統合前の設計記録](docs/history/README.md)
 
 ## 公開する情報

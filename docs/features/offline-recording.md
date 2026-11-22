@@ -8,6 +8,16 @@ mkdir -p .local/capture-demo
   --record-input .local/capture-demo/input.txt ROMFILE
 ```
 
+メガCDのディスクを録画するときは、CUEを入力に渡す。地域を固定するには
+`-r J` または `-r U` を使い、BlastEmの設定に対応する
+`system.scd_bios_jp` または `system.scd_bios_us` のBIOSファイルを指定する。
+セーブも実行ごとに分けるときは、専用の `XDG_DATA_HOME` を使う。
+
+```sh
+./blastem -r J --record .local/capture-demo/cd 2400 \
+  --record-input .local/capture-demo/start.txt DISC.cue
+```
+
 入力ファイルは省略できる。指定する場合は次の形式で、フレーム番号の昇順に並べる。同じフレームの複数イベントは記載順に適用する。
 
 ```text
@@ -54,7 +64,7 @@ mkfifo .local/capture-demo/input.pipe
 - `PREFIX.apng`、`PREFIX.part0001.apng` 以降: 1,800フレーム単位のロスレス映像
   - NTSC は 320×240、PAL は 320×256
   - H32 の画面は中央に配置し、H40 との切替も同じサイズで収録する。初期設定の overscan 除去値を使う
-- `PREFIX.wav`: 通常の YM2612/PSG ミキサー出力。44,100 Hz、16 bit、stereo
+- `PREFIX.wav`: メインのミキサー出力。メガCDではRF5C164なども含む。44,100 Hz、16 bit、stereo
 - `PREFIX.json`: 完了フレーム数、映像寸法、正確なフレームレートの分子・分母、音声サンプル数、映像の分割数と分割フレーム数、正常完了フラグ、実表示領域（`active_areas`）
   - `active_areas` は、表示モード（H32/H40、V28/V30）が同じ区間ごとの `from`・`to`（1始まりのフレーム番号）と、320 幅の画像の中で実際にゲーム画面が描かれる矩形（`x`・`y`・`width`・`height`）
 
@@ -83,11 +93,12 @@ python3 tools/mux_capture.py .local/capture-demo/run .local/capture-demo/playthr
 
 ## 保証範囲
 
-- 対象は通常の MD カートリッジ、progressive 映像、SDL 版の本体。zlib が必要
+- 対象は通常の MD カートリッジとメガCDのディスク起動、progressive 映像、SDL 版の本体。zlib が必要
 - interlace、途中の NTSC/PAL 切替、別機種では明示的に失敗する
-- 任意の savestate、外部制御からの速度変更、CD・32X、全タイトルでの動作は未検証
+- 任意の savestate、外部制御からの速度変更、32X、全タイトルでの動作は未検証
 - `-b` とは併用できない。WAV の RIFF サイズ上限は従来どおり適用される
 - 終了条件はフレーム数。指定した END に達したかの判定は呼出側が行う。録画中に強制終了すると出力が未完了になり得るため、配布前に JSON の完了フラグを確認する
+- 検証用のCAVCディスクでは、日本向けBIOSで本編の進行、RF5C164のテスト音、映像分割境界の再現性を確認した。北米向けBIOSでは録画ファイルは正常確定したが、同じデータの北米向けディスクで本編に進まなかった。WAV出力や録画終了の成否とは別に、ディスク固有の再生完了を確認する
 
 ## 試験
 
