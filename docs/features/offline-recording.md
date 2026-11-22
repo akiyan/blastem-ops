@@ -26,6 +26,29 @@ mkdir -p .local/capture-demo
 
 音源ごとの録音や書き込みログは [音源別の録音と書き込みログ](audio-stems.md) を参照（`--record-mute`、`--record-no-video`、`--record-sound-log`）。
 
+## 入力列を作りながら録画する
+
+操作を決める実行（MCP や制御ソケット）と録画を並行させる。操作列ができるのを待ってから録画し直す時間がなくなる。
+
+```sh
+mkfifo .local/capture-demo/input.pipe
+./blastem --record .local/capture-demo/run MAX_FRAMES \
+  --record-follow .local/capture-demo/input.pipe ROMFILE   # - なら標準入力
+```
+
+操作を決める側は、次の行を書くたびに flush する。
+
+| 行 | 意味 |
+|---|---|
+| `FRAME PAD down\|up BUTTON` | 上と同じ入力。フレームの昇順 |
+| `FRAME through` | `FRAME` までの入力は書き終え、実行はその先へ続く。録画はそこまで進んで待つ |
+| `FRAME end` | `FRAME` を最終フレームにする。すべての入力と `through` より後で、`MAX_FRAMES` 以下 |
+
+- `through` より前のフレームの入力、逆戻りする `through`、範囲外の `end` は失敗にする
+- `end` の前に列が閉じたら失敗し、`complete` の録画にしない
+- 同じ入力なら、映像・音声・JSON は `--record-input` とバイト単位で一致する
+- `--record-input` とは併用できない
+
 ## 出力
 
 - `PREFIX.apng`、`PREFIX.part0001.apng` 以降: 1,800フレーム単位のロスレス映像
@@ -76,3 +99,4 @@ python3 tools/mux_capture.py .local/capture-demo/run .local/capture-demo/playthr
 - 音声サンプル数と WAV ヘッダーが一致し、映像との長さの差が 40 ms 未満
 - 1,801フレームを 1,800+1 に分割し、両ファイルの全 PNG chunk CRC と decode フレーム数を確認する。分割した録画の MP4 結合も確認する
 - 既存ファイルを上書きせず、順序が不正な入力を実行前に拒否する
+- 少しずつ書いたパイプ・標準入力からの録画が、ファイル入力の録画と一致する。不正な列と途中で閉じた列を拒否する

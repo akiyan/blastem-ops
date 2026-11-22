@@ -39,7 +39,7 @@ MCP ホストには `mcp/blastem-mcp` を stdio サーバーとして登録す�
 - 機能: [SRAM](docs/features/sram.md)、[停止中の画面取得](docs/features/paused-screenshot.md)、[フレーム制御](docs/features/frame-control.md)、[音声録音](docs/features/audio-capture.md)、[速度と RAM](docs/features/speed-and-ram.md)、[ヘッドレス録画](docs/features/offline-recording.md)、[フレームごとの値の記録](docs/features/frame-trace.md)、[VDP 表示内容のテキスト化](docs/features/vdp-layout.md)、[音源別の録音と書き込みログ](docs/features/audio-stems.md)、[走査線単位の記録](docs/features/line-trace.md)、[Z80 の観測](docs/features/z80.md)、[シンボル名の指定](docs/features/symbols.md)、[状態保存・リセット・入力](docs/features/state-and-input.md)、[停止の種類と GDB 実行の中断](docs/features/stops.md)
 - [試験用 fixture ROM](docs/fixture.md)
 - [上流への追従](docs/upstream-sync.md)
-- [統合時の検証記録](releases/2026-11-18.md)、[上流追従の記録](releases/2026-11-18-upstream-sync.md)、[観測機能の追加](releases/2026-11-18-observation.md)
+- [統合時の検証記録](releases/2026-11-18.md)、[上流追従の記録](releases/2026-11-18-upstream-sync.md)、[観測機能の追加](releases/2026-11-18-observation.md)、[作成中の入力列からの録画](releases/2026-11-22-record-follow.md)
 - [統合前の設計記録](docs/history/README.md)
 
 ## 公開する情報

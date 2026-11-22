@@ -37,6 +37,7 @@
 | 名前付きステート保存・復元 | ✗ | ✗ | ◯ | ◯ | ✗ |
 | SRAM フラッシュ・完了確認 | ✗ | ✗ | ◯ | ◯ | ✗ |
 | 入力列付きヘッドレス全編収録 | ✗ | ✗ | ✗ | ✗ | ◯ |
+| 入力列を作りながらの並行収録 | ✗ | ✗ | ✗ | ✗ | ◯ |
 
 GDB の実行中断は localhost TCP で使えます。GDB で命令境界に停止し、同じプロセスの Unix 制御ソケットから直前の完成フレームや VDP ダンプを取得できます。単体 CLI の収録は `--record` で行います。
 
@@ -59,7 +60,7 @@ GDB の実行中断は localhost TCP で使えます。GDB で命令境界に停
 | Z80 レジスター・RAM 読取 | ◯ 内蔵デバッガー | ✗ | **◯** | **◯** | ✗ |
 | ソフトリセット | ◯ 内蔵デバッガー | ✗ | **◯** | **◯** | ✗ |
 
-Unix での GDB の localhost TCP 接続は ulalume 版で追加されました。単体 CLI の入力列は `--record-input` で収録時に再生します。
+Unix での GDB の localhost TCP 接続は ulalume 版で追加されました。単体 CLI の入力列は `--record-input` で収録時に再生します。作成中の入力列は `--record-follow` で受け取ります。
 
 ## 独自変更（エミュレーター本体）
 
@@ -155,6 +156,7 @@ Unix での GDB の localhost TCP 接続は ulalume 版で追加されました�
   - `PREFIX.wav`: 44,100 Hz、16 bit、stereo
   - `PREFIX.json`: 完了フレーム数、寸法、正確なフレームレート、サンプル数、分割情報、正常完了フラグ
 - 入力ファイルの各行は `完了フレーム番号 pad番号 down|up ボタン`。pad は1〜8、ボタンは `up down left right a b c start x y z mode`
+- `--record-follow FILE`（`-` は標準入力）は、別の実行が作っている入力列をパイプから受け取り、入力が確定したところまで録画を進めて待つ。`FRAME through` で確定を、`FRAME end` で最終フレームを伝える。`end` がなく閉じた列は失敗にする。録画は `--record-input` とバイト単位で同じ（[#29](https://github.com/akiyan/blastem/issues/29)）
 - 既存ファイルは上書きしない
 - 次の場合は明示的に失敗する: interlace、途中の NTSC/PAL 切替、別機種、`-b` との併用
 - 既存 APNG の終了処理で、acTL のフレーム数を書き換えた後に CRC を更新していなかった点を修正した
@@ -295,5 +297,5 @@ Unix での GDB の localhost TCP 接続は ulalume 版で追加されました�
 ## 検証と運用
 
 - [導入と MCP ホストの設定](docs/setup.md)、[上流への追従とコミット形式](docs/upstream-sync.md)
-- [統合時の検証記録](releases/2026-11-18.md)、[上流追従の記録](releases/2026-11-18-upstream-sync.md)、[観測機能の追加](releases/2026-11-18-observation.md)
+- [統合時の検証記録](releases/2026-11-18.md)、[上流追従の記録](releases/2026-11-18-upstream-sync.md)、[観測機能の追加](releases/2026-11-18-observation.md)、[作成中の入力列からの録画](releases/2026-11-22-record-follow.md)
 - [統合前の設計記録](docs/history/README.md)
