@@ -117,6 +117,7 @@ Unix での GDB の localhost TCP 接続は ulalume 版で追加されました�
 - `interrupt` は実行中の advance を中断させる
 - 応答には frame、advanced、paused、interrupted、boundary を含める
 - advance 中に status・interrupt 以外の要求が来たら `busy` を返す。接続が切れたら次の同期点で停止する
+- 停止中は制御ソケットに要求が来たらすぐに処理する（停止中のループの周期を待たない）
 - 対象は単体 MD の通常 SDL 同期。GDB 起動時、CD・32X、threaded・external 同期では `unsupported` を返す
 - capability: `frame_control`
 - 詳細: [フレーム制御](docs/features/frame-control.md)
@@ -301,4 +302,5 @@ Unix での GDB の localhost TCP 接続は ulalume 版で追加されました�
 - [導入と MCP ホストの設定](docs/setup.md)、[上流への追従とコミット形式](docs/upstream-sync.md)
 - [統合時の検証記録](releases/2026-11-18.md)、[上流追従の記録](releases/2026-11-18-upstream-sync.md)、[観測機能の追加](releases/2026-11-18-observation.md)、[作成中の入力列からの録画](releases/2026-11-22-record-follow.md)
 - [メガCDのヘッドレス録画](releases/2026-11-23-sega-cd-recording.md)
+- [停止中の要求への即時応答](releases/2026-11-23-paused-wake.md)
 - [統合前の設計記録](docs/history/README.md)
