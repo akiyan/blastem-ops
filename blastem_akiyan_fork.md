@@ -203,6 +203,16 @@ Unix での GDB の localhost TCP 接続は ulalume 版で追加されました�
 - capability: `line_trace`
 - 詳細: [走査線単位の記録](docs/features/line-trace.md)
 
+#### 単体CLIでのVDP DMA計測
+
+- `--vdp-dma-trace FILE` で、VDP DMAの要求、ソース読み出し、転送完了、実際の書き込みを、走査フレーム・ライン・マスタークロック付きのTSVに記録する
+- CPUからのVDPデータポート書き込みも区別する。メガCDではWord RAMからの転送と、その直後にCPUが同じ宛先へ書いた値を照合できる
+- 詳細は[単体CLIのVDP DMAトレース](docs/features/vdp-dma-trace.md)を参照
+
+#### メガCDのWord RAMからのコード実行
+
+- 動的変換用メタデータの確保、参照、書き込みによる無効化で同じ領域境界を使う。Sub CPUが1M Word RAM上でコードを実行する分割ディスクのローダーを検証した
+
 ### 12. サウンド CPU（Z80）の観測
 
 `z80_to_x86.c`、`z80_to_x86.h`、`ctrl_v2.c`
@@ -289,7 +299,7 @@ Unix での GDB の localhost TCP 接続は ulalume 版で追加されました�
 
 ## 保証範囲とライセンス
 
-- 対象は Linux x86_64 の SDL 版と通常の MD カートリッジ。メガCDは単体CLIのオフライン録画も対象
+- 対象は Linux x86_64 の SDL 版と通常の MD カートリッジ。メガCDは単体CLIのオフライン録画とVDP DMA計測も対象
 - メガCDの制御ソケット v2、32X、Windows、big-endian ホスト、任意の savestate は検証記録の対象外
 - ライセンス
   - BlastEM 本体と、本体ソースへの変更は GPL-3.0-or-later
@@ -303,4 +313,5 @@ Unix での GDB の localhost TCP 接続は ulalume 版で追加されました�
 - [統合時の検証記録](releases/2026-11-18.md)、[上流追従の記録](releases/2026-11-18-upstream-sync.md)、[観測機能の追加](releases/2026-11-18-observation.md)、[作成中の入力列からの録画](releases/2026-11-22-record-follow.md)
 - [メガCDのヘッドレス録画](releases/2026-11-23-sega-cd-recording.md)
 - [停止中の要求への即時応答](releases/2026-11-23-paused-wake.md)
+- [VDP DMA計測とメガCDの分割ディスク検証](releases/2026-11-23-vdp-dma-multipart.md)
 - [統合前の設計記録](docs/history/README.md)
